@@ -59,6 +59,16 @@ div.chat-window div.content {
   background-size: cover;
   background-position: top;
   background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
+  padding: 15px 25px;
+}
+
+div.chat-window div.content::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+div.chat-window div.content::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2)
 }
 
 div.chat-window div.emoji-area {

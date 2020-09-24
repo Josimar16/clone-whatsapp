@@ -19,12 +19,17 @@ export default () => {
     { chat_id: 3, title: 'Carlos Cenci', avatar: 'https://avatars2.githubusercontent.com/u/61289109?s=400&u=5341aaa881134dc973ba04a5f9588f4a92e718da&v=4' },
   ])
   const [activeChat, setActiveChat] = useState({ chat_id: 0 })
+  const [user, setUser] = useState({
+    id: 1,
+    name: 'Josimar Martins',
+    avatar: 'https://avatars3.githubusercontent.com/u/49077388?s=400&u=551a7010f9fc91859229f0d600481a2b2ca118a6&v=4'
+  })
 
   return (
     <div className="container">
       <div className="sidebar">
         <header>
-          <img src="https://avatars3.githubusercontent.com/u/49077388?s=400&u=551a7010f9fc91859229f0d600481a2b2ca118a6&v=4" alt="avatar" />
+          <img src={user.avatar} alt="avatar" />
           <ul>
             <li><DonutLargeIcon style={{ color: '#919191' }} /></li>
             <li><ChatIcon style={{ color: '#919191' }} /></li>
@@ -49,7 +54,7 @@ export default () => {
         </div>
       </div>
       <div className="content">
-        {activeChat.chat_id !== 0 && <ChatWindow />}
+        {activeChat.chat_id !== 0 && <ChatWindow user={user} />}
         {activeChat.chat_id === 0 && <ChatIntro />}
       </div>
     </div>

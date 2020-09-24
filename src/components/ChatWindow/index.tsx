@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef, MutableRefObject } from 'react'
 import EmojiPicker from 'emoji-picker-react'
 
 import './style.css'
+import MessageItem from '../MessageItem'
 
 import SearchIcon from '@material-ui/icons/Search'
 import AttachFileIcon from '@material-ui/icons/AttachFile'
@@ -11,15 +12,58 @@ import CloseIcon from '@material-ui/icons/Close'
 import SendIcon from '@material-ui/icons/Send'
 import MicIcon from '@material-ui/icons/Mic'
 
-export default () => {
+interface Props {
+  user: {
+    id: number
+    name: string
+    avatar: string
+  }
+}
+
+export default ({ user }: Props) => {
+
+  const body: MutableRefObject<any> = useRef()
 
   let recognition: SpeechRecognition | null = null
   let SpeechRecognition = window.SpeechRecognition
+  // let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
   if (SpeechRecognition !== undefined) recognition = new SpeechRecognition()
 
   const [emojiOpen, setEmojiOpen] = useState(false)
   const [text, setText] = useState('')
   const [listening, setListening] = useState(false)
+  const [list, setList] = useState([
+    { remetente_id: 1, body: 'Ola Maria, como vai?', date: '18:01' },
+    { remetente_id: 2, body: 'Oi Josimar, tudo bem e com vc?', date: '18:03' },
+    { remetente_id: 1, body: 'Vou ótimo, que bom te ver!', date: '18:06' },
+    { remetente_id: 1, body: 'Faz tempo que não te vejo...', date: '18:06' },
+    { remetente_id: 1, body: 'Ola Maria, como vai?', date: '18:01' },
+    { remetente_id: 2, body: 'Oi Josimar, tudo bem e com vc?', date: '18:03' },
+    { remetente_id: 1, body: 'Vou ótimo, que bom te ver!', date: '18:06' },
+    { remetente_id: 1, body: 'Faz tempo que não te vejo...', date: '18:06' },
+    { remetente_id: 1, body: 'Ola Maria, como vai?', date: '18:01' },
+    { remetente_id: 2, body: 'Oi Josimar, tudo bem e com vc?', date: '18:03' },
+    { remetente_id: 1, body: 'Vou ótimo, que bom te ver!', date: '18:06' },
+    { remetente_id: 1, body: 'Faz tempo que não te vejo...', date: '18:06' },
+    { remetente_id: 1, body: 'Ola Maria, como vai?', date: '18:01' },
+    { remetente_id: 2, body: 'Oi Josimar, tudo bem e com vc?', date: '18:03' },
+    { remetente_id: 1, body: 'Vou ótimo, que bom te ver!', date: '18:06' },
+    { remetente_id: 1, body: 'Faz tempo que não te vejo...', date: '18:06' },
+    { remetente_id: 1, body: 'Ola Maria, como vai?', date: '18:01' },
+    { remetente_id: 2, body: 'Oi Josimar, tudo bem e com vc?', date: '18:03' },
+    { remetente_id: 1, body: 'Vou ótimo, que bom te ver!', date: '18:06' },
+    { remetente_id: 1, body: 'Faz tempo que não te vejo...', date: '18:06' },
+    { remetente_id: 1, body: 'Ola Maria, como vai?', date: '18:01' },
+    { remetente_id: 2, body: 'Oi Josimar, tudo bem e com vc?', date: '18:03' },
+    { remetente_id: 1, body: 'Vou ótimo, que bom te ver!', date: '18:06' },
+    { remetente_id: 1, body: 'Faz tempo que não te vejo...', date: '18:06' },
+  ])
+
+  useEffect(() => {
+    if (body.current.scrollHeight > body.current.offsetHeight) {
+      body.current.scrollTop = body.current.scrollHeight - body.current.offsetHeight
+    }
+  }, [list])
 
   const handleEmojiClick = (e: Event, emojiObject: { emoji: string }) => {
     setText(text + emojiObject.emoji)
@@ -69,8 +113,19 @@ export default () => {
           </ul>
         </div>
       </div>
-      <div className="content">
-
+      <div
+        ref={body}
+        className="content"
+      >
+        {
+          list.map((item, key) => (
+            <MessageItem
+              key={key}
+              data={item}
+              user={user}
+            />
+          ))
+        }
       </div>
       <div className="emoji-area" style={{ height: emojiOpen ? '250px' : '0px' }}>
         <EmojiPicker
